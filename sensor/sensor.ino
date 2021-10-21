@@ -27,12 +27,15 @@ void loop() {
   //  Serial.print(map(mpu.getAngleZ(), -1000, 1000, 0, 360));
 
   mpu.update();
-  Serial.print("x ");
+  // X axis
   Serial.print(mpu.getAngleX());
-  Serial.print(" Y ");
+  Serial.print("|");
+  // Y axis
   Serial.print(mpu.getAngleY());
-  Serial.print(" z ");
+  Serial.print("|");
+  // Z axis
   Serial.print(mpu.getAngleZ());
   Serial.println("");
+  // Serial.write?
   delay(10);
 }
