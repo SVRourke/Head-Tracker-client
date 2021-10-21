@@ -22,11 +22,17 @@ void setup() {
 }
 
 void loop() {
+  //  Serial.print(map(mpu.getAngleX(), 1000, -1000, 0, 360));
+  //  Serial.print(map(mpu.getAngleZ(), -1000, 1000, 0, 360));
+  //  Serial.print(map(mpu.getAngleZ(), -1000, 1000, 0, 360));
+
   mpu.update();
   Serial.print("x ");
-  Serial.print(map(mpu.getAngleX(), 1000, -1000, 0, 360));
+  Serial.print(mpu.getAngleX());
+  Serial.print(" Y ");
+  Serial.print(mpu.getAngleY());
   Serial.print(" z ");
-  Serial.print(map(mpu.getAngleZ(), -1000, 1000, 0, 360));
+  Serial.print(mpu.getAngleZ());
   Serial.println("");
   delay(10);
 }
