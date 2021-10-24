@@ -1,5 +1,5 @@
 {
     "port": "COM3",
     "board": "arduino:avr:micro",
-    "sketch": "sensor\\zeroing.ino"
+    "sketch": "sensor\\zeroing.ino\\zeroing.ino.ino"
 }

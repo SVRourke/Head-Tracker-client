@@ -85,13 +85,14 @@ void setup() {
     // supply your own gyro offsets here, scaled for min sensitivity
 //     XAccel      YAccel        ZAccel      XGyro     YGyro     ZGyro
 //    -1054.00000, -5789.00000,  1574.00000,  53.00000,  129.00000,  -10.00000
-// [-3199,-3198] --> [-2,16]  [-5695,-5694] --> [-11,8] [3241,3242] --> [16369,16392] [56,57] --> [-2,1]  [125,126] --> [-2,1]  [-9,-8] --> [0,3]
-    mpu.setZAccelOffset(1574); // 1688 factory default for my test chip
-    mpu.setXAccelOffset(-3199); // 1688 factory default for my test chip
-    mpu.setYAccelOffset(-5789); // 1688 factory default for my test chip
-    mpu.setXGyroOffset(53);
-    mpu.setYGyroOffset(129);
-    mpu.setZGyroOffset(-10);
+//    [-2159]       [1115]       [2670       [-21]     [35]      [12]
+    mpu.setXAccelOffset(-2159);
+    mpu.setYAccelOffset(1115);
+    mpu.setZAccelOffset(2970);
+    
+    mpu.setXGyroOffset(-21);
+    mpu.setYGyroOffset(35);
+    mpu.setZGyroOffset(12);
     
 
     // make sure it worked (returns 0 if so)
@@ -145,10 +146,8 @@ void loop() {
         mpu.dmpGetGravity(&gravity, &q);
         mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
 //        Serial.print("yrp\t");
-        Serial.print(ypr[0] * 180/M_PI);
-        Serial.print("\t");
-        Serial.print(ypr[1] * 180/M_PI);
-        Serial.print("\t");
+        Serial.print("yaw ");
+//        Serial.print(ypr[0] M");
         Serial.println(ypr[2] * 180/M_PI);
     }
 }
