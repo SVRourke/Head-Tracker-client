@@ -12,7 +12,6 @@ class Sensor:
         self.find_port()
 
     def find_port(self):
-        print("Hello")
         ports = [i for i in serial.tools.list_ports.comports()]
         port = [i for i in ports if "Arduino Micro" in i.description]
         self.port = port[0].name
@@ -22,20 +21,37 @@ class Sensor:
 
     def connect(self):
         # Handle Handshake and calibration
-        self.connection = serial.Serial(self.port, self.baud, self.timeout)
+        self.connection = serial.Serial(self.port, 38400, timeout=0)
 
+    def calibrate(self):
+        self.connection.write("start".encode('ascii'))
+        calibrating = True
+        while calibrating:
+            packet = self.read_value()
+            if "CALIBRATION FINISHED" in packet:
+                calibrating = False
+        print("calibrated")
+        return True
+
+    def disconnect(self):
+        self.connection.close()
+
+    # Not getting most recent line
     def read_value(self):
+        self.connection.flushInput()
         line = self.connection.readline().decode('ascii').strip()
+        splitframe = line.split("\t")
         # parse Frame
-        return line
+        return splitframe
+        # return self.parseframe(line)
 
-    # def parseframe(frame):
-    # splitframe = frame.split("|")
-    # try:
-    #     return {
-    #         "x": splitframe[0],
-    #         "y": splitframe[1],
-    #         "z": splitframe[2],
-    #     }
-    # except:
-    #     pass
+    def parseframe(frame):
+        splitframe = frame.split("\t")
+        try:
+            return {
+                "x": splitframe[0],
+                "y": splitframe[1],
+                "z": splitframe[2],
+            }
+        except:
+            pass
