@@ -21,7 +21,7 @@ class Sensor:
 
     def connect(self):
         # Handle Handshake and calibration
-        self.connection = serial.Serial(self.port, 38400, timeout=0)
+        self.connection = serial.Serial(self.port, 115200, timeout=1)
 
     def calibrate(self):
         self.connection.write("start".encode('ascii'))
@@ -36,14 +36,11 @@ class Sensor:
     def disconnect(self):
         self.connection.close()
 
-    # Not getting most recent line
+    # Not getting most recent line maybe needs buffer setup, need to send struct from arduino to rectify partial line issues
     def read_value(self):
-        self.connection.flushInput()
+        # self.connection.flushInput()
         line = self.connection.readline().decode('ascii').strip()
-        splitframe = line.split("\t")
-        # parse Frame
-        return splitframe
-        # return self.parseframe(line)
+        return line.split("|")
 
     def parseframe(frame):
         splitframe = frame.split("\t")
