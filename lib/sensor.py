@@ -27,7 +27,7 @@ class Sensor:
         self.connection.write("start".encode('ascii'))
         calibrating = True
         while calibrating:
-            packet = self.read_value()
+            packet = self.connection.readline().decode('ascii')
             if "CALIBRATION FINISHED" in packet:
                 calibrating = False
         print("calibrated")
@@ -38,9 +38,9 @@ class Sensor:
 
     # Not getting most recent line maybe needs buffer setup, need to send struct from arduino to rectify partial line issues
     def read_value(self):
-        # self.connection.flushInput()
         line = self.connection.readline().decode('ascii').strip()
-        return line.split("|")
+        values = [int(float(i)) for i in line.split("|")]
+        return values
 
     def parseframe(frame):
         splitframe = frame.split("\t")
