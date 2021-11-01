@@ -1,79 +1,48 @@
-from tkinter import *
+
 from tkinter import ttk
+import tkinter as tk
+import sys
+sys.path.insert(1, '../lib')
 
-# window = tk.Tk()
-
-# comframe = tk.Frame(window)
-# comframe.pack()
-
-# com port select
-# label = tk.Label(text="Select Input Device", master=comframe)
-# label.pack()
-
-# combobox
-# options = ['COM3', 'COM4', 'COM5']
-# combo = ttk.Combobox(comframe, values = options)
-# combo.set("Select your device")
-# combo.pack()
-
-# submit
-# selectCom = tk.Button(comframe, text = "Select")
-# selectCom.pack()
-
-# centerButton = tk.Button(comframe, text = "center")
-# centerButton.pack()
-
-# startButton = tk.Button(comframe, text = "center")
-# startButton.pack()
-
-# joystickframe = tk.Frame(window)
-# joystickframe.pack()
-
-# connectbutton = tk.Button(joystickframe, text='Start Joystick')
-# connectbutton.pack()
-
-# joystick output representation 
-# jus text for now
-
-# head position representation 
-# just text for now
+from gamepad import Controller
+from sensor import Sensor
 
 
-# window.mainloop()
+
+window = tk.Tk()
+window.title("ArduTrack")
+# window.geometry('500x300')
+
+# ============================================
+# Sensor Frame
+# ============================================
+# frame
+sensor = tk.Frame(window)
+sensor.grid(column=0, row=0, columnspan=2, pady=15, padx=25)
+# Frame Label
+sensorFrameLabel = ttk.Label(sensor, text='Sensor')
+sensorFrameLabel.grid(columnspan=1, rowspan=1)
+
+# Connect Button
+connectButton = tk.Button(sensor, text="connect", width=40)
+connectButton.grid(column=0, row=1, rowspan=1, columnspan=1)
+
+# Calibrate Button
+calibrateButton = tk.Button(sensor, text="calibrate", width=40)
+calibrateButton.grid(column=0, row=2, rowspan=1, columnspan=1)
+
+# Calibrate Button
+readButton = tk.Button(sensor, text="read", width=40)
+readButton.grid(column=0, row=3, rowspan=1, columnspan=1)
 
 
-def calculate(*args):
-    try:
-        value = float(feet.get())
-        meters.set(int(0.3048 * value * 10000.0 + 0.5)/10000.0)
-    except ValueError:
-        pass
+# ============================================
+# Gamepad Frame
+# ============================================
+# gamepad = tk.Frame(window)
+# gamepad.grid(column=2, row=0, columnspan=2, rowspan=1, pady=15, padx=8)
 
-root = Tk()
-root.title("Feet to Meters")
+# gamepadFrameLabel = ttk.Label(gamepad, text='Gamepad', width=50)
+# gamepadFrameLabel.grid(columnspan=1, rowspan=1)
 
-mainframe = ttk.Frame(root, padding="3 3 12 12")
-mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
-root.columnconfigure(0, weight=1)
-root.rowconfigure(0, weight=1)
-
-feet = StringVar()
-feet_entry = ttk.Entry(mainframe, width=7, textvariable=feet)
-feet_entry.grid(column=2, row=1, sticky=(W, E))
-
-meters = StringVar()
-ttk.Label(mainframe, textvariable=meters).grid(column=2, row=2, sticky=(W, E))
-
-ttk.Button(mainframe, text="Calculate", command=calculate).grid(column=3, row=3, sticky=W)
-
-ttk.Label(mainframe, text="feet").grid(column=3, row=1, sticky=W)
-ttk.Label(mainframe, text="is equivalent to").grid(column=1, row=2, sticky=E)
-ttk.Label(mainframe, text="meters").grid(column=3, row=2, sticky=W)
-
-for child in mainframe.winfo_children(): 
-    child.grid_configure(padx=5, pady=5)
-
-feet_entry.focus()
-root.bind("<Return>", calculate)
-
-root.mainloop()
+window.mainloop()
